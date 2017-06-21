@@ -1,8 +1,6 @@
-
 import Foundation
 
 public struct Locker {
-    
     public static func read(stringFromService service: String, andAccount account: String) -> String? {
         return Keychain.load(service, account)?.UTF8String
     }
@@ -27,4 +25,3 @@ public struct Locker {
         return Keychain.clear
     }
 }
-

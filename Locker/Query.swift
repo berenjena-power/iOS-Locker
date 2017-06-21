@@ -15,7 +15,7 @@ internal class Query {
     fileprivate var payload = [String : Any]()
     
     internal typealias BuilderClosure = (Query) -> ()
-    // TODO: - Change when apple fixes https://bugs.swift.org/browse/SR-824
+
     convenience init(buildClosure: BuilderClosure) {
         self.init()
         buildClosure(self)
@@ -23,7 +23,7 @@ internal class Query {
     
     convenience init(service: String, account: String) {
         self.init()
-        payload[kSecReturnData as String] = kCFBooleanTrue as Bool
+        payload[kSecReturnData as String] = kCFBooleanTrue as! Bool
         payload[kSecMatchLimit as String] = kSecMatchLimitOne as String
         payload[kSecAttrAccount as String] = account
         payload[kSecAttrService as String] = service
@@ -61,14 +61,13 @@ internal class Query {
     }
     
     // MARK: - Keychain Query methods
-    
-    var save : Bool {
+    var save: Bool {
         _ = self.delete
         let status = SecItemAdd(self.dictionary, nil)
         return status == noErr
     }
     
-    var load : Data? {
+    var load: Data? {
         let dataTypeRef = UnsafeMutablePointer<AnyObject?>.allocate(capacity: 1)
         let status = SecItemCopyMatching(self.dictionary, dataTypeRef)
         
@@ -79,11 +78,11 @@ internal class Query {
         return data
     }
     
-    var delete : Bool {
+    var delete: Bool {
         return SecItemDelete(self.dictionary) == noErr
     }
     
-    class var clear : Bool {
+    class var clear: Bool {
         let dictionary = [kSecClass as String : kSecClassGenericPassword as Any]
         return SecItemDelete(dictionary as CFDictionary) == noErr
     }

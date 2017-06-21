@@ -1,9 +1,7 @@
 import Foundation
 
 struct Keychain {
-    
     // MARK: - Keychain Save Query
-    
     static func save(_ service: String, account: String, string: String) -> Bool {
         let query = Query { builder in
             builder.account = account
@@ -25,13 +23,11 @@ struct Keychain {
     }
     
     // MARK: - Keychain Load Query
-    
     static func load(_ service: String, _ account: String) -> Data? {
         return Query(service: service, account: account).load
     }
     
     // MARK: - Keychain Delete Query
-    
     static func delete(service: String, account: String) -> Bool {
         let query = Query { builder in
             builder.account = account
@@ -42,21 +38,18 @@ struct Keychain {
     }
     
     // MARK: - Clean Keychain
-    
     static var clear : Bool {
         return Query.clear
     }
 }
 
 internal extension Data {
-    
     var UTF8String: String? {
-        return NSString(data: self, encoding: String.Encoding.utf8.rawValue) as? String
+        return NSString(data: self, encoding: String.Encoding.utf8.rawValue) as String?
     }
 }
 
 internal extension String {
-    
     var data: Data? {
         return self.data(using: String.Encoding.utf8)
     }
